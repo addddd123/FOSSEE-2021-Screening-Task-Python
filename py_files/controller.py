@@ -3,7 +3,7 @@ import sys
 from functools import partial
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from main import *
+from view import *
 
 #from model import Model
 #from main import Window
