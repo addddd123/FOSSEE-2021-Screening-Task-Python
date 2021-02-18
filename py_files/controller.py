@@ -2,8 +2,8 @@
 import sys
 from functools import partial
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-from view import *
+import view
+#from view import *
 
 #from model import Model
 #from main import Window
@@ -11,18 +11,20 @@ from view import *
 
 class Controller:
     
-    def run(self):
+    
+    def __init__(self):
         app = QtWidgets.QApplication(sys.argv)
         mainWindow = QtWidgets.QMainWindow()
-        ui = Ui_mainWindow()
+        ui =view.Ui_mainWindow()
         ui.setupUi(mainWindow)
+    
         mainWindow.show()
         sys.exit(app.exec_())
 
+
 if __name__ == '__main__':
     c = Controller()
-    sys.exit(c.run())
-
+    
 
 
 
