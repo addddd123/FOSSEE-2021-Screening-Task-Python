@@ -138,7 +138,7 @@ class window(QWidget):
                     dialog.layout().addWidget(tblTable)
                     dialog.setStyleSheet("font-size:14px;"
                                                 "color: black;"
-                                                "background-color: #A9A9A9;"
+                                                "background-color: white;"
                                                 "font: SanSerif; "
                                                 )
                     dialog.setWindowIcon(QtGui.QIcon("icon.jpg"))
@@ -172,7 +172,7 @@ class window(QWidget):
                     dialog.layout().addWidget(tblTable)
                     dialog.setStyleSheet("font-size:14px;"
                                                 "color: black;"
-                                                "background-color: #A9A9A9;"
+                                                "background-color: white;"
                                                 "font: SanSerif; "
                                                 )
                     dialog.setWindowIcon(QtGui.QIcon("icon.jpg"))
