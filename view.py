@@ -44,9 +44,9 @@ class window(QWidget):
 # ##############another dialog which get radio inputs to select paticualr fxn################################
     def on_pressed(self,obj_btn_get):
         ######### passing argument above in order two which window which button pressed############
-        
+        print(obj_btn_get)
         dialog_box1 = QDialog()
-        dialog_box1.setWindowTitle("Search")
+        dialog_box1.setWindowTitle(obj_btn_get+ " menu")
         #label_btn_selected=QLabel("")
         dialog_box1.resize(170, 170)
         
@@ -68,11 +68,12 @@ class window(QWidget):
         v_box1 = QVBoxLayout()
         v_box1.addWidget(self.label1, alignment=Qt.AlignHCenter)
         v_box1.addLayout(h_box1)
-        self.label2=QLabel(obj_btn_get+" mode selected in main")
+        self.label2=QLabel("you have selected <b>"+obj_btn_get+"</b>")
+        self.label2.setStyleSheet("background-color:white; color:blue; font-size:17px;")
         v_box1.addWidget(self.label2)
         self.channels_rad.toggled.connect(lambda: self.btn_state(self.channels_rad,obj_btn_get))
         self.beams_rad.toggled.connect(lambda: self.btn_state(self.beams_rad,obj_btn_get))
-        self.angles_rad.toggled.connect(lambda: self.btn_state(self.channels_rad,obj_btn_get))
+        self.angles_rad.toggled.connect(lambda: self.btn_state(self.angles_rad,obj_btn_get))
         
         dialog_box1.setLayout(v_box1)
         dialog_box1.setStyleSheet("font-size:14px;"
@@ -83,67 +84,160 @@ class window(QWidget):
         dialog_box1.setWindowIcon(QtGui.QIcon("abc.png"))
 
         dialog_box1.exec_()
-        
+    
         ###############radio button functions of second windows #################
     def btn_state(self,radio_state_dialog,btn_state_main):
-        conn = sqlite3.connect('steel_sections.sqlite')
-        db_exists=os.path.exists('steel_sections.sqlite')
-        print("db_exists->",db_exists)
-        if not db_exists:
+        if btn_state_main=="display":
+            print(radio_state_dialog.text())
+            db_exists=not os.path.exists('steel_sections.sqlite')
+            print("db_exists->",db_exists)
+            if db_exists==True:
+                
+                dg=QDialog()
+                dg.setWindowTitle("warning message")
+                dg.resize(170, 170)
+                label__warn=QLabel("!!!!!no database in path")
+                dg.setStyleSheet("font-size:32px;"
+                                    "color: red;"
+                                    "background-color: white;"
+                                    "font: SanSerif; "
+                                    )
+                
+                dg.setLayout(QVBoxLayout())
+                dg.layout().addWidget(label__warn)
+                dg.exec_()
+                
+            else:
+                conn = sqlite3.connect('steel_sections.sqlite')
+                cursor = conn.cursor()
+                if radio_state_dialog.text()=="Beams" and radio_state_dialog.isChecked() == True:
+                    rowcount2 = cursor.execute('''SELECT COUNT(*) FROM Beams''').fetchone()[0]
+                    table_attributes=['Id', 'Designation', 'Mass', 'Area', 'D', 'B', 'tw', 'T', 'FlangeSlope', 'R1', 'R2', 'Iz', 'Iy',
+                        'rz', 'ry', 'Zz', 'Zy', 'Zpz', 'Zpy', 'Source']
+                    
+                    tblTable = QTableWidget()
+
+                    tableItem = QTableWidgetItem()
+                    tblTable.setWindowTitle("Details")
+                    tblTable.setRowCount(rowcount2)
+                    tblTable.setColumnCount(20)
+                    tblTable.setHorizontalHeaderLabels(table_attributes)
+
+                    cursor.execute('''SELECT * FROM Beams''')
+
+                    for row1, form1 in enumerate(cursor):
+                        for column1, item1 in enumerate(form1):
+                            tblTable.setItem(row1, column1, QTableWidgetItem(str(item1)))
+                    tblTable.horizontalHeader().setStretchLastSection(True)
+                    tblTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+                    tblTable.show()
+                    dialog = QDialog()
+                    dialog.setWindowTitle("Data of "+radio_state_dialog.text()+" Section")
+                    dialog.resize(600, 400)
+                    dialog.setLayout(QVBoxLayout())
+                    dialog.layout().addWidget(tblTable)
+                    dialog.setStyleSheet("font-size:14px;"
+                                                "color: black;"
+                                                "background-color: #A9A9A9;"
+                                                "font: SanSerif; "
+                                                )
+                    dialog.setWindowIcon(QtGui.QIcon("icon.jpg"))
+                    dialog.exec_()
+            
+                elif radio_state_dialog.text()=="Channels" and radio_state_dialog.isChecked() == True:
+                    rowcount_ = cursor.execute('''SELECT COUNT(*) FROM Beams''').fetchone()[0]
+                    table_attributes_channels=['Id', 'Designation', 'Mass', 'Area', 'D', 'B', 'tw', 'T', 'FlangeSlope', 'R1', 'R2', 'Cy', 'Iz',
+                     'Iy', 'rz', 'ry', 'Zz', 'Zy', 'Zpz', 'Zpy', 'Source']
+                    
+                    tblTable = QTableWidget()
+
+                    tableItem = QTableWidgetItem()
+                    tblTable.setWindowTitle("Details")
+                    tblTable.setRowCount(rowcount_)
+                    tblTable.setColumnCount(20)
+                    tblTable.setHorizontalHeaderLabels(table_attributes_channels)
+
+                    cursor.execute('''SELECT * FROM Channels''')
+
+                    for row2, form2 in enumerate(cursor):
+                        for column2, item2 in enumerate(form2):
+                            tblTable.setItem(row2, column2, QTableWidgetItem(str(item2)))
+                    tblTable.horizontalHeader().setStretchLastSection(True)
+                    tblTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+                    tblTable.show()
+                    dialog = QDialog()
+                    dialog.setWindowTitle("Data of "+radio_state_dialog.text()+" Section")
+                    dialog.resize(600, 400)
+                    dialog.setLayout(QVBoxLayout())
+                    dialog.layout().addWidget(tblTable)
+                    dialog.setStyleSheet("font-size:14px;"
+                                                "color: black;"
+                                                "background-color: #A9A9A9;"
+                                                "font: SanSerif; "
+                                                )
+                    dialog.setWindowIcon(QtGui.QIcon("icon.jpg"))
+                    dialog.exec_()
+                elif radio_state_dialog.text()=="Angles" and radio_state_dialog.isChecked() == True:
+                    rowcount3 = cursor.execute('''SELECT COUNT(*) FROM Angles ''').fetchone()[0]
+                    table_attributes_angles=['Id', 'Designation', 'Mass', 'Area', 'AXB', 't', 'R1', 'R2', 'Cz', 'Cy', 'Tan?', 'Iz', 'Iy',
+                        'Iu(max)', 'Iv(min)', 'rz', 'ry', 'ru(max)', 'rv(min)', 'Zz', 'Zy', 'Zpz', 'Zpy', 'Source']
+                    tblTable = QTableWidget()
+
+                    tableItem = QTableWidgetItem()
+                    tblTable.setWindowTitle("Details")
+                    tblTable.setRowCount(rowcount3)
+                    tblTable.setColumnCount(24)
+                    tblTable.setHorizontalHeaderLabels(
+                        ['Id', 'Designation', 'Mass', 'Area', 'AXB', 't', 'R1', 'R2', 'Cz', 'Cy', 'Tan?', 'Iz', 'Iy',
+                        'Iu(max)', 'Iv(min)', 'rz', 'ry', 'ru(max)', 'rv(min)', 'Zz', 'Zy', 'Zpz', 'Zpy', 'Source'])
+                    cursor.execute('''SELECT * FROM Angles ''')
+
+                    for row, form in enumerate(cursor):
+                        for column, item in enumerate(form):
+                            tblTable.setItem(row, column, QTableWidgetItem(str(item)))
+                    tblTable.horizontalHeader().setStretchLastSection(False)
+                    tblTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
+                    tblTable.show()
+
+                    dialog = QDialog()
+                    dialog.setWindowTitle("Data of "+radio_state_dialog.text()+" Section")
+                    dialog.resize(600, 400)
+                    dialog.setLayout(QVBoxLayout())
+                    dialog.layout().addWidget(tblTable)
+                    dialog.setStyleSheet("font-size:14px;"
+                                        "color: black;"
+                                        "background-color:white;"
+                                        "font: SanSerif; "
+                                        )
+                    dialog.setWindowIcon(QtGui.QIcon("icon.jpg"))
+                    dialog.exec()
+                
+    ########################display sec ended above ###############################################################
+    ###########################################################################################################
+    ##############################################################################################################
+    ###############Appending code starts below##################################
+                    
+        elif btn_state_main=="append":
+                    ##########not intrested in display then obviously intrested in appending data ##########
+                    ##########appending into databse and its code willl go here#######
+            def append(self,radio_state_dialog,btn_state_main):
+                print("hahaaaaaaaaaaaaaaaaaaaaaaaa")
+            print("halaalalalalla")
+            append(self,radio_state_dialog,btn_state_main)
+        else:
             dg=QDialog()
             dg.setWindowTitle("warning message")
             dg.resize(170, 170)
-            label__warn=QLabel("!!!!!no database in path")
+            label__warn=QLabel("!!!!!Something bad happened")
             dg.setStyleSheet("font-size:32px;"
-                                  "color: red;"
-                                  "background-color: white;"
-                                  "font: SanSerif; "
-                                  )
-            
+                                    "color: red;"
+                                    "background-color: white;"
+                                    "font: SanSerif; "
+                                    )
+                
             dg.setLayout(QVBoxLayout())
             dg.layout().addWidget(label__warn)
             dg.exec_()
-        else:
-            cursor = conn.cursor()
-            rowcount2 = cursor.execute('''SELECT COUNT(*) FROM Beams''').fetchone()[0]
-            tblTable = QTableWidget()
-
-            tableItem = QTableWidgetItem()
-            tblTable.setWindowTitle("Details")
-            tblTable.setRowCount(rowcount2)
-            tblTable.setColumnCount(20)
-            tblTable.setHorizontalHeaderLabels(
-                    ['Id', 'Designation', 'Mass', 'Area', 'D', 'B', 'tw', 'T', 'FlangeSlope', 'R1', 'R2', 'Iz', 'Iy',
-                     'rz', 'ry', 'Zz', 'Zy', 'Zpz', 'Zpy', 'Source'])
-
-            cursor.execute('''SELECT * FROM Beams''')
-
-            for row, form in enumerate(cursor):
-                for column, item in enumerate(form):
-                    tblTable.setItem(row, column, QTableWidgetItem(str(item)))
-            tblTable.horizontalHeader().setStretchLastSection(True)
-            tblTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-            tblTable.show()
-            dialog = QDialog()
-            dialog.setWindowTitle("Data of Beams Section")
-            dialog.resize(600, 400)
-            dialog.setLayout(QVBoxLayout())
-            dialog.layout().addWidget(tblTable)
-            dialog.setStyleSheet("font-size:14px;"
-                                          "color: black;"
-                                          "background-color: #A9A9A9;"
-                                          "font: SanSerif; "
-                                          )
-            dialog.setWindowIcon(QtGui.QIcon("icon.jpg"))
-            dialog.exec()
-        #print(btn_state_main,radio_state_dialog.text()) #rwo args to know which bu
-        if radio_state_dialog.text()=="Channels" and btn_state_main=="display":
-            print("happpy")
-            
-          
-        
-        
-        
         
         
         
