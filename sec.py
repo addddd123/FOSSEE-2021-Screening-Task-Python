@@ -9,7 +9,7 @@ class window(QWidget):
     def __init__(self):
         super().__init__()
         self.setGeometry(80,100,400,400)
-        self.setWindowTitle(" my app")
+        self.setWindowTitle(" Fossee simple app")
         
         self.setWindowIcon(QIcon('pexels-pixabay-46167.jpg'))
         self.setWindowOpacity(1)
@@ -22,7 +22,7 @@ class window(QWidget):
         self.setLayout(vbox)
         self.show()
     def create_button(self):
-        self.groupbox=QGroupBox("Welcome to App",alignment=Qt.AlignHCenter)
+        self.groupbox=QGroupBox("Welcome to fossee steel design Gui",alignment=Qt.AlignHCenter)
         
         self.groupbox.setStyleSheet("color:green ; font-size:25px;")
         self.groupbox.setFont(QFont("sanserif",15))
