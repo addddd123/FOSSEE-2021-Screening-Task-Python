@@ -21,6 +21,7 @@ class window(QWidget):
         vbox.addWidget(self.groupbox)
         self.setLayout(vbox)
         self.show()
+        #######creating buttons on main window##########below fxn for that#######
     def create_button(self):
         self.groupbox=QGroupBox("Welcome to fossee steel design Gui",alignment=Qt.AlignHCenter)
         
@@ -29,12 +30,15 @@ class window(QWidget):
         hbox=QHBoxLayout()
         self.btn1=QPushButton("Display")
         self.btn1.clicked.connect(lambda:self.on_pressed("display"))
-        self.btn1.setIcon(QIcon("download.png"))
+        self.btn1.setIcon(QIcon("display.png"))
+        self.btn1.setIconSize(QSize(33, 30))
         self.btn1.setStyleSheet("background-color:blue; color:black")
         hbox.addWidget(self.btn1)
         self.btn2=QPushButton("append")
         self.btn2.clicked.connect(lambda:self.on_pressed("append"))
-        self.btn2.setIcon(QIcon("download.png")) 
+        self.btn2.setIcon(QIcon("append.png")) 
+        self.btn2.setIconSize(QSize(33, 30))
+        # self.btn2.QSize(10, 10) 
         self.btn2.setStyleSheet("background-color:blue;color:black")
         
         hbox.addWidget(self.btn2)
@@ -122,6 +126,16 @@ class window(QWidget):
                     tblTable.setRowCount(rowcount2)
                     tblTable.setColumnCount(20)
                     tblTable.setHorizontalHeaderLabels(table_attributes)
+                    ##########below loop changes color of of table headers ##############
+                    for i in range(0,21):
+                        if i%2==0:
+                            item1 = QtWidgets.QTableWidgetItem('green')
+                            item1.setBackground(QtGui.QColor( 0,255, 0))
+                            tblTable.setHorizontalHeaderItem(i,item1)
+                        else:
+                            item1 = QtWidgets.QTableWidgetItem('blue')
+                            item1.setBackground(QtGui.QColor( 255,0, 0))
+                            tblTable.setHorizontalHeaderItem(i,item1)
 
                     cursor.execute('''SELECT * FROM Beams''')
 
@@ -154,7 +168,16 @@ class window(QWidget):
                     tableItem = QTableWidgetItem()
                     tblTable.setWindowTitle("Details")
                     tblTable.setRowCount(rowcount_)
-                    tblTable.setColumnCount(20)
+                    tblTable.setColumnCount(21)
+                    for i in range(0,21):
+                        if i%2==0:
+                            item1 = QtWidgets.QTableWidgetItem('green')
+                            item1.setBackground(QtGui.QColor( 0,255, 0))
+                            tblTable.setHorizontalHeaderItem(i,item1)
+                        else:
+                            item1 = QtWidgets.QTableWidgetItem('blue')
+                            item1.setBackground(QtGui.QColor( 255,0, 0))
+                            tblTable.setHorizontalHeaderItem(i,item1)
                     tblTable.setHorizontalHeaderLabels(table_attributes_channels)
 
                     cursor.execute('''SELECT * FROM Channels''')
@@ -196,6 +219,17 @@ class window(QWidget):
                         for column, item in enumerate(form):
                             tblTable.setItem(row, column, QTableWidgetItem(str(item)))
                     tblTable.horizontalHeader().setStretchLastSection(False)
+                    ##########below loop changes color of of table headers ##############
+                    for i in range(0,25):
+                        if i%2==0:
+                            item1 = QtWidgets.QTableWidgetItem('green')
+                            item1.setBackground(QtGui.QColor( 0,255, 0))
+                            tblTable.setHorizontalHeaderItem(i,item1)
+                        else:
+                            item1 = QtWidgets.QTableWidgetItem('blue')
+                            item1.setBackground(QtGui.QColor( 255,0, 0))
+                            tblTable.setHorizontalHeaderItem(i,item1)
+
                     tblTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
                     tblTable.show()
 
@@ -220,10 +254,13 @@ class window(QWidget):
         elif btn_state_main=="append":
                     ##########not intrested in display then obviously intrested in appending data ##########
                     ##########appending into databse and its code willl go here#######
-            def append(self,radio_state_dialog,btn_state_main):
-                print("hahaaaaaaaaaaaaaaaaaaaaaaaa")
-            print("halaalalalalla")
-            append(self,radio_state_dialog,btn_state_main)
+            
+            pass
+            
+            
+            
+            
+            ########below else used to pop up window if something bad happens on choosing radio button###############
         else:
             dg=QDialog()
             dg.setWindowTitle("warning message")
