@@ -189,7 +189,7 @@ class Ui_Dialog(object):
         self.channel_push_submit.setStyleSheet("background-color: rgb(0, 0, 255);")
         self.channel_push_submit.setObjectName("channel_push_submit")
         self.formLayout_2.setWidget(12, QtWidgets.QFormLayout.SpanningRole, self.channel_push_submit)
-
+        self.channel_push_submit.clicked.connect(self.abc)
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -219,7 +219,8 @@ class Ui_Dialog(object):
         self.label_38.setText(_translate("Dialog", "Zpy"))
         self.label_39.setText(_translate("Dialog", "Source"))
         self.channel_push_submit.setText(_translate("Dialog", "Submit"))
-
+    def abc(self):
+        print("hhhhhhhhhhhhhhhhhhhhhhhhhh")
 
 if __name__ == "__main__":
     import sys
