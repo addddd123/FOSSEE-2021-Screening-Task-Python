@@ -18,8 +18,8 @@ class window(QWidget):
         vbox=QVBoxLayout()
         self.label_image=QLabel(self)
         vbox.addWidget(self.label_image,alignment=Qt.AlignHCenter)
-        self.pixmap = QPixmap('steel.jpeg')
-        self.label_image.setPixmap(self.pixmap.scaled(470,100)) 
+        self.pixmap = QPixmap('steel tubes.jpg')
+        self.label_image.setPixmap(self.pixmap.scaled(500,200)) 
         self.label_image.setScaledContents(True)
         vbox.addWidget(self.groupbox)
         self.setLayout(vbox)
@@ -65,7 +65,7 @@ class window(QWidget):
         if obj_btn_get=="display":###this if else sets images on dialog acc to button pressed
             self.pixmap = QPixmap('display2.png') 
         else:
-            self.pixmap = QPixmap('append_db.jpeg') 
+            self.pixmap = QPixmap('append.jpg') 
 
         self.label_image.setPixmap(self.pixmap.scaled(100,100)) 
         self.label_image.setScaledContents(True)
@@ -108,9 +108,9 @@ class window(QWidget):
         ###############radio button functions of second windows #################
     def btn_state(self,radio_state_dialog,btn_state_main):
         if btn_state_main=="display":
-            print(radio_state_dialog.text())
+            #print(radio_state_dialog.text())
             db_exists=not os.path.exists('steel_sections.sqlite')
-            print("db_exists->",db_exists)
+            #print("db_exists->",db_exists)
             if db_exists==True:
                 
                 dg=QDialog()

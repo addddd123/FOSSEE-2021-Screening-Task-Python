@@ -2,9 +2,9 @@ from PyQt5.QtWidgets import QApplication,QWidget ,QDialog ,  QMainWindow ,QLabel
 class model1:
     def genrate_msg(self):
         dg1=QDialog()
-        dg1.setWindowTitle("warning message")
+        dg1.setWindowTitle("Database message")
         dg1.resize(170, 170)
-        label__warn=QLabel("!!!!!no database in path")
+        label__warn=QLabel("Data inserted at position")
         dg1.setStyleSheet("font-size:32px;"
                                     "color: red;"
                                     "background-color: white;"
