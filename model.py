@@ -34,9 +34,11 @@ class model1:
                                     "font: SanSerif; "
                                     )
         elif db_stats==True :
-            label__warn=QLabel("""Data inserted at index "+str(index)+"\n\nBut u have not entered "+str(count_miss_value)+" values \n
-                               means some data values will be empty in database""")
-            dg1.setStyleSheet("font-size:32px;"
+            if count_miss_value==0:
+                label__warn=QLabel(" Data inserted at index "+str(index)+" successfully")
+            else:
+                label__warn=QLabel(" Data inserted at index "+str(index)+" successfully,\n But u have left "+str(count_miss_value)+" values empty \n means some data values will be empty in database")
+            dg1.setStyleSheet("font-size:25px;"
                                     "color: blue;"
                                     "background-color: white;"
                                     "font: SanSerif; "
