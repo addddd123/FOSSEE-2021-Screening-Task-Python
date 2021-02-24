@@ -11,14 +11,16 @@ class window(QWidget):
         super().__init__()
         self.setGeometry(80,100,400,400)
         self.setWindowTitle(" Fossee simple app")
-        
-        self.setWindowIcon(QIcon('pexels-pixabay-46167.jpg'))
         self.setWindowOpacity(1)
         self.setStyleSheet("background-color:white ")
         self.create_button()
         # self.setLayout(grid)
         vbox=QVBoxLayout()
-        
+        self.label_image=QLabel(self)
+        vbox.addWidget(self.label_image,alignment=Qt.AlignHCenter)
+        self.pixmap = QPixmap('steel tubes.jpg')
+        self.label_image.setPixmap(self.pixmap.scaled(500,200)) 
+        self.label_image.setScaledContents(True)
         vbox.addWidget(self.groupbox)
         self.setLayout(vbox)
         self.show()
@@ -61,9 +63,9 @@ class window(QWidget):
         v_box1.addWidget(self.label_image,alignment=Qt.AlignHCenter)
         
         if obj_btn_get=="display":###this if else sets images on dialog acc to button pressed
-            self.pixmap = QPixmap('display2.png') 
+            self.pixmap = QPixmap('display.png') 
         else:
-            self.pixmap = QPixmap('append_db.jpeg') 
+            self.pixmap = QPixmap('append.jpg') 
 
         self.label_image.setPixmap(self.pixmap.scaled(100,100)) 
         self.label_image.setScaledContents(True)
@@ -106,9 +108,9 @@ class window(QWidget):
         ###############radio button functions of second windows #################
     def btn_state(self,radio_state_dialog,btn_state_main):
         if btn_state_main=="display":
-            print(radio_state_dialog.text())
+            #print(radio_state_dialog.text())
             db_exists=not os.path.exists('steel_sections.sqlite')
-            print("db_exists->",db_exists)
+            #print("db_exists->",db_exists)
             if db_exists==True:
                 
                 dg=QDialog()
@@ -139,7 +141,7 @@ class window(QWidget):
                     tblTable.setWindowTitle("Details")
                     tblTable.setRowCount(rowcount2)
                     tblTable.setColumnCount(20)
-                    tblTable.setHorizontalHeaderLabels(table_attributes)
+                    
                     ##########below loop changes color of of table headers ##############
                     for i in range(0,21):
                         if i%2==0:
@@ -150,7 +152,7 @@ class window(QWidget):
                             item1 = QtWidgets.QTableWidgetItem('blue')
                             item1.setBackground(QtGui.QColor( 255,0, 0))
                             tblTable.setHorizontalHeaderItem(i,item1)
-
+                    tblTable.setHorizontalHeaderLabels(table_attributes)
                     cursor.execute('''SELECT * FROM Beams''')
 
                     for row1, form1 in enumerate(cursor):
@@ -173,7 +175,7 @@ class window(QWidget):
                     dialog.exec_()
             
                 elif radio_state_dialog.text()=="Channels" and radio_state_dialog.isChecked() == True:
-                    rowcount_ = cursor.execute('''SELECT COUNT(*) FROM Beams''').fetchone()[0]
+                    rowcount_ = cursor.execute('''SELECT COUNT(*) FROM Channels''').fetchone()[0]
                     table_attributes_channels=['Id', 'Designation', 'Mass', 'Area', 'D', 'B', 'tw', 'T', 'FlangeSlope', 'R1', 'R2', 'Cy', 'Iz',
                      'Iy', 'rz', 'ry', 'Zz', 'Zy', 'Zpz', 'Zpy', 'Source']
                     
@@ -224,16 +226,7 @@ class window(QWidget):
                     tblTable.setWindowTitle("Details")
                     tblTable.setRowCount(rowcount3)
                     tblTable.setColumnCount(24)
-                    tblTable.setHorizontalHeaderLabels(
-                        ['Id', 'Designation', 'Mass', 'Area', 'AXB', 't', 'R1', 'R2', 'Cz', 'Cy', 'Tan?', 'Iz', 'Iy',
-                        'Iu(max)', 'Iv(min)', 'rz', 'ry', 'ru(max)', 'rv(min)', 'Zz', 'Zy', 'Zpz', 'Zpy', 'Source'])
-                    cursor.execute('''SELECT * FROM Angles ''')
-
-                    for row, form in enumerate(cursor):
-                        for column, item in enumerate(form):
-                            tblTable.setItem(row, column, QTableWidgetItem(str(item)))
-                    tblTable.horizontalHeader().setStretchLastSection(False)
-                    ##########below loop changes color of of table headers ##############
+                    
                     for i in range(0,25):
                         if i%2==0:
                             item1 = QtWidgets.QTableWidgetItem('green')
@@ -243,7 +236,15 @@ class window(QWidget):
                             item1 = QtWidgets.QTableWidgetItem('blue')
                             item1.setBackground(QtGui.QColor( 255,0, 0))
                             tblTable.setHorizontalHeaderItem(i,item1)
+                    tblTable.setHorizontalHeaderLabels(table_attributes_angles)
+                    cursor.execute('''SELECT * FROM Angles ''')
 
+                    for row, form in enumerate(cursor):
+                        for column, item in enumerate(form):
+                            tblTable.setItem(row, column, QTableWidgetItem(str(item)))
+                    tblTable.horizontalHeader().setStretchLastSection(False)
+                    ##########below loop changes color of of table headers ##############
+                    
                     tblTable.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
                     tblTable.show()
 
@@ -445,6 +446,7 @@ class window(QWidget):
                         
                         obj.append_in_channel_database(get)
                     else:
+                       
                         obj.append_in_beams_database(get)        
                 
                 self.channel_push_submit.clicked.connect(lambda:get_data_from_beams_or_Channel_form([self.channel_Designation.text(),
@@ -550,6 +552,7 @@ class window(QWidget):
                 self.angle_tw.setObjectName("angle_tw")
                 self.formLayout.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.angle_tw)
                 self.angle_T = QtWidgets.QLabel(self.formLayoutWidget)
+                self.angle_T.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.angle_T.setObjectName("angle_T")
                 self.formLayout.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.angle_T)
                 self.lineEdit_15 = QtWidgets.QLineEdit(self.formLayoutWidget)
@@ -674,13 +677,14 @@ class window(QWidget):
                 
                 def get_data_from_Angle_form(get):
                            obj1=model.model1()
+                          
                            obj1.append_in_angle_database(get)           
                 #self.angle_push_submit.clicked.connect(lambda:abc(self.label.text()))
                 self.angle_push_submit.clicked.connect(lambda:get_data_from_Angle_form([self.angle_Designation.text(),
                                                                     self.angle_Mass.text(),self.Area.text()
                                                                    ,self.angle_D.text(),self.angle_B.text()
-                                                                   ,self.angle_tw.text()
-                                                                   ,self.lineEdit_15.text(),self.lineEdit_16.text()
+                                                                   ,self.angle_tw.text(),self.angle_T.text()
+                                                                   ,self.lineEdit_15.text(),self.angle_FlangeSlope.text(),self.lineEdit_16.text()
                                                                    ,self.angle_R1.text(),self.angle_R2.text(),self.angle_Iz.text()
                                                                    ,self.angle_Iy.text(),self.angle_rz.text(),self.angle_ry.text()
                                                                    ,self.angle_zz.text(),self.angle_Zy.text(),self.angle_Zpz.text()
@@ -744,6 +748,6 @@ class window(QWidget):
         
         
         
-app=QApplication(sys.argv)
-window=window()
-sys.exit(app.exec_())
+# app=QApplication(sys.argv)
+# window=window()
+# sys.exit(app.exec_())
