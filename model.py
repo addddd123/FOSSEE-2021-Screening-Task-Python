@@ -21,7 +21,7 @@ class model1:
         #     self.genrate_msg("not_exist")
             
             return (0,0,0,False)
-    def genrate_msg(self,index,db_stats=True):
+    def genrate_msg(self,index,db_stats=True,count_miss_value=""):
        
         dg1=QDialog()
         dg1.setWindowTitle("Database message")
@@ -33,8 +33,8 @@ class model1:
                                     "background-color: white;"
                                     "font: SanSerif; "
                                     )
-        elif db_stats==True:
-            label__warn=QLabel("Data inserted at index "+str(index))
+        elif db_stats==True :
+            label__warn=QLabel("Data inserted at index "+str(index)+"\n\nBut u have not entered "+str(count_miss_value)+" values ")
             dg1.setStyleSheet("font-size:32px;"
                                     "color: blue;"
                                     "background-color: white;"
@@ -45,7 +45,11 @@ class model1:
         dg1.layout().addWidget(label__warn)
         dg1.exec_()
     def insert(self,index,know_in_which_table,get_data):
-        
+        count_empty=0
+        for i in get_data:
+            if i=='':
+                count_empty+=1
+   
         if know_in_which_table=="Channels":
           
             
@@ -58,7 +62,7 @@ class model1:
             index[0].commit()
             index[1].close()
             index[0].close()             
-                                                                
+            return count_empty                                                  
             
         elif know_in_which_table=="Beams":
             
@@ -70,7 +74,7 @@ class model1:
             index[0].commit()
             index[1].close()
             index[0].close()  
-             
+            return count_empty
         else:
             
             index[1].execute('''INSERT INTO Angles (Designation,Mass,Area,AXB,t,R1,R2,Cz,Cy,'Tan?',Iz,Iy,'Iu(max)'
@@ -83,29 +87,32 @@ class model1:
             index[0].commit()
             index[1].close()
             index[0].close()              
-             
+            return count_empty
     def append_in_channel_database(self,get_data):
          #claculates new pk where new data will b inserted
        
         index=self.new_index("Channels")
         
         if index[3]==True:
-            self.insert(index,"Channels",get_data)
-            self.genrate_msg(index[2]) #index[2] ? bkz i am returning above 3 args so tuple will be returned
+            self.count_miss=self.insert(index,"Channels",get_data)
+           
+            self.genrate_msg(index[2],True,self.count_miss) #index[2] ? bkz i am returning above 3 args so tuple will be returned
         else :
             self.genrate_msg(index[2],False)
     def append_in_beams_database(self,get_data):
     
         index=self.new_index("Beams")
         if index[3]==True:
-            self.insert(index,"Beams",get_data)
-            self.genrate_msg(index[2])  #index[2] ? bkz i am returning above 3 args so tuple will be returned
+            self.count_miss=self.insert(index,"Beams",get_data)
+          
+            self.genrate_msg(index[2],True,self.count_miss)  #index[2] ? bkz i am returning above 3 args so tuple will be returned
         else:    
             self.genrate_msg(index[2],False)
     def append_in_angle_database(self,get_data):
         index=self.new_index("Angles ")
         if index[3]==True:
-            self.insert(index,"Angles ",get_data)
-            self.genrate_msg(index[2])#index[2] ? bkz i am returning above 3 args so tuple will be returned
+            self.count_miss=self.insert(index,"Angles ",get_data)
+           
+            self.genrate_msg(index[2],True,self.count_miss)#index[2] ? bkz i am returning above 3 args so tuple will be returned
         else:
             self.genrate_msg(index[2],False)

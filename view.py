@@ -152,7 +152,7 @@ class window(QWidget):
                             item1 = QtWidgets.QTableWidgetItem('blue')
                             item1.setBackground(QtGui.QColor( 255,0, 0))
                             tblTable.setHorizontalHeaderItem(i,item1)
-                    tblTable.setHorizontalHeaderLabels(table_attributes_channels)
+                    tblTable.setHorizontalHeaderLabels(table_attributes)
                     cursor.execute('''SELECT * FROM Beams''')
 
                     for row1, form1 in enumerate(cursor):
