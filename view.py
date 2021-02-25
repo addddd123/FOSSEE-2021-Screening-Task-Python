@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication,QWidget ,QDialog , QTableWidget, QTableWidgetItem, QMainWindow ,QLabel, QPushButton ,QVBoxLayout ,QHBoxLayout ,QGridLayout ,QGroupBox,QRadioButton
 import sys
 import model
+
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtGui import QIcon , QFont ,QPixmap 
 from PyQt5.QtCore import QSize , Qt ,QRect,QMetaObject,QCoreApplication
@@ -76,9 +77,9 @@ class window(QWidget):
         elif obj_btn_get=="append":
             self.pixmap = QPixmap('append.jpg') 
         else:
-            print("deleteeee")
-            self.label_delete=QtWidgets.QLabel(" enter id of table to delete ")
-            self.line_delete=QtWidgets.QLineEdit(self)
+            self.pixmap = QPixmap('delete.jpeg')
+            self.label_delete=QtWidgets.QLabel(" enter id  ")
+            self.line_delete=QtWidgets.QLineEdit()
         self.label_image.setPixmap(self.pixmap.scaled(100,100)) 
         self.label_image.setScaledContents(True)
         
@@ -91,12 +92,19 @@ class window(QWidget):
         self.label1 = QLabel("Select A Table to "+obj_btn_get)
         v_box1.addWidget(self.label1, alignment=Qt.AlignHCenter)
         self.label1.setStyleSheet("color:green ; font-size:17px;")
+         
         if obj_btn_get=="delete":
-            v_box1.addWidget(self.label_delete)
-            v_box1.addWidget(self.line_delete)
-            h_box1.addLayout(h_box1)
+            h_box11=QHBoxLayout()
+            
+            h_box11.addWidget(self.label_delete)
+            h_box11.addWidget(self.line_delete) 
+            self.push_reset=QPushButton("reset")
+            h_box11.addWidget(self.push_reset)
+            v_box1.addLayout(h_box11)
+            
+            self.push_reset.setStyleSheet("color:blue; background-color:red;")
+            v_box1.addWidget(self.push_reset,alignment=Qt.AlignRight)
         h_box1.addWidget(self.channels_rad,alignment=Qt.AlignHCenter)
-
         h_box1.addWidget(self.beams_rad,alignment=Qt.AlignHCenter)
         h_box1.addWidget(self.angles_rad,alignment=Qt.AlignHCenter)
         h_box1.addStretch()
@@ -107,24 +115,32 @@ class window(QWidget):
         self.label2=QLabel("<b>"+obj_btn_get+"</b> "+"chosen by you")
         self.label2.setStyleSheet("background-color:white; color:blue; font-size:17px;")
         
+        
         v_box1.addWidget(self.label2)
+        #self.push_reset.clicked.connect(lambda:self.reset_radio(self.channels_rad,self.angles_rad,self.beams_rad,self.line_delete ))
+        
         if obj_btn_get!="delete":
+            
             self.channels_rad.toggled.connect(lambda: self.btn_state(self.channels_rad,obj_btn_get))
+            
             self.beams_rad.toggled.connect(lambda: self.btn_state(self.beams_rad,obj_btn_get))
             self.angles_rad.toggled.connect(lambda: self.btn_state(self.angles_rad,obj_btn_get))
-        else:   
+        elif obj_btn_get=="delete":   
             ob=model.model1()
-            print("jjjjjjjjjjjjjjjjj ",self.channels_rad.text(),self.angles_rad.text(),self.beams_rad.text())
-            
+            self.push_reset.clicked.connect(lambda:self.reset_radio(self.channels_rad,self.angles_rad,self.beams_rad,self.line_delete ))
+        
             # if self.channels_rad.text()=="Channels" and  self.channels_rad.isChecked() == True:
             #     print(" true channel")
-            self.channels_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"channels"))
+            
+            
+            self.channels_rad.clicked.connect(lambda:ob.delete_start(self.line_delete.text(),"channels"))
             # elif self.angles_rad.text() =="Angles" and  self.angles_rad.isChecked() == True:
             #     print(" tru angle")
-            self.angles_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"angles"))
+            self.angles_rad.clicked.connect(lambda:ob.delete_start(self.line_delete.text(),"angles"))
             # elif self.beams_rad.text()=="Beams" and  self.beams_rad.isChecked() == True:
             #     print(" beam tru")
-            self.beams_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"beams"))
+            self.beams_rad.clicked.connect(lambda:ob.delete_start(self.line_delete.text(),"beams"))
+            
         dialog_box1.setLayout(v_box1)
         dialog_box1.setStyleSheet("font-size:14px;"
                                   "color: black;"
@@ -134,7 +150,16 @@ class window(QWidget):
         dialog_box1.setWindowIcon(QtGui.QIcon("abc.png"))
 
         dialog_box1.exec_()
-    
+    def reset_radio(self,chan,angl,beam,text=""):
+        
+        chan.setChecked(False)
+        beam.setChecked(False)
+        angl.setChecked(False)
+        
+        if text!="":
+            text.setText('')
+        
+        
         ###############radio button functions of second windows #################
     def btn_state(self,radio_state_dialog,btn_state_main):
         if btn_state_main=="display":
@@ -299,7 +324,7 @@ class window(QWidget):
         elif btn_state_main=="append":
                     ##########not intrested in display then obviously intrested in appending data ##########
                     ##########appending into databse and its code willl go here#######
-            def append_data_into_channel_or_beams_dialog(self,radio_state_know):
+            def make_dialog_for_channel_or_beams(self,radio_state_know):
                 Dialog1=QDialog()
                 Dialog1.setObjectName("Dialog")
                 Dialog1.resize(373, 384)
@@ -553,14 +578,14 @@ class window(QWidget):
                 self.label_3 = QtWidgets.QLabel(self.formLayoutWidget)
                 self.label_3.setObjectName("label_3")
                 self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_3)
-                self.Area = QtWidgets.QLineEdit(self.formLayoutWidget)
+                self.Area = QtWidgets.QLineEdit(self.formLayoutWidget) #t
                 self.Area.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.Area.setObjectName("Area")
                 self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.Area)##
                 self.label_4 = QtWidgets.QLabel(self.formLayoutWidget)
                 self.label_4.setObjectName("label_4")
                 self.formLayout.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_4)
-                self.angle_D = QtWidgets.QLineEdit(self.formLayoutWidget)
+                self.angle_D = QtWidgets.QLineEdit(self.formLayoutWidget) #R1
                 self.angle_D.setStyleSheet("background-color: rgb(255, 255, 255);\n"
                 "\n"
                 "")
@@ -569,7 +594,7 @@ class window(QWidget):
                 self.label_15 = QtWidgets.QLabel(self.formLayoutWidget)
                 self.label_15.setObjectName("label_15")
                 self.formLayout.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_15)
-                self.angle_B = QtWidgets.QLineEdit(self.formLayoutWidget)
+                self.angle_B = QtWidgets.QLineEdit(self.formLayoutWidget)#R2
                 self.angle_B.setStyleSheet("background-color: rgb(255, 255, 255);\n"
                 "")
                 self.angle_B.setObjectName("angle_B")
@@ -754,7 +779,7 @@ class window(QWidget):
                 Dialog1.exec_()
             
             if (radio_state_dialog.text()=="Channels" or radio_state_dialog.text()=="Beams") and radio_state_dialog.isChecked() == True:
-                append_data_into_channel_or_beams_dialog(self,radio_state_dialog.text())
+                make_dialog_for_channel_or_beams(self,radio_state_dialog.text())
             elif radio_state_dialog.text()=="Angles" and radio_state_dialog.isChecked() == True:
                 append_data_into_angels_dialog(self)
                 

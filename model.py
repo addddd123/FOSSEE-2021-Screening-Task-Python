@@ -1,6 +1,7 @@
-from PyQt5.QtWidgets import QApplication,QWidget ,QDialog ,  QMainWindow ,QLabel, QPushButton ,QVBoxLayout ,QHBoxLayout ,QGridLayout ,QGroupBox,QRadioButton
+from PyQt5.QtWidgets import QApplication,QWidget ,QDialog ,QMessageBox,  QMainWindow ,QLabel, QPushButton ,QVBoxLayout ,QHBoxLayout ,QGridLayout ,QGroupBox,QRadioButton
 import  sqlite3
 import os
+
 class model1:
     def new_index(self,argu):
         db_exists=not os.path.exists('steel_sections.sqlite')
@@ -37,7 +38,7 @@ class model1:
             if count_miss_value==0:
                 label__warn=QLabel(" Data inserted at index "+str(index)+" successfully")
             else:
-                label__warn=QLabel(" Data inserted at index "+str(index)+" successfully,\n But u have left "+str(count_miss_value)+" values empty \n means some data values will be empty in database")
+                label__warn=QLabel(" Data inserted at index "+str(index)+" successfully,\n But u have left "+str(count_miss_value)+" values empty\n means "+str(count_miss_value)+"  data values will be empty in database")
             dg1.setStyleSheet("font-size:25px;"
                                     "color: blue;"
                                     "background-color: white;"
@@ -125,7 +126,7 @@ class model1:
     
     
     
-    def genrate_delete_msg(self,erro_message="id not found"):
+    def genrate_delete_msg1(self,erro_message="id not found"):
             dg2=QDialog()
             dg2.setWindowTitle("Database message")
             dg2.resize(170, 170)
@@ -137,7 +138,7 @@ class model1:
                                     )
             dg2.setLayout(QVBoxLayout())
             dg2.layout().addWidget(label__warn)
-            dg2.exec_()
+            dg2.exec()
             
             
     def delete_in_channel(self,arg_id_db):
@@ -187,22 +188,26 @@ class model1:
         else:
            return "id doesnt exist"
     def delete_start(self,arg_id_db,radio_btn_which_pressed):
-        try:
-            arg_id_db=int(arg_id_db)
-
         
+        try:
+           
+            arg_id_db=int(arg_id_db)
+            
+
         except:
-            self.genrate_delete_msg("check u didnt enter numeric value!!!!!!")
+            
+            self.genrate_delete_msg1("check u didnt enter numeric value!!!!!!")
             return
-        if radio_btn_which_pressed=="channels":
-                # print(radio_btn_which_pressed,arg_id_db)
-            
-            self.genrate_delete_msg(self.delete_in_channel(arg_id_db))
-        elif radio_btn_which_pressed=="angles":
-                # print(radio_btn_which_pressed,arg_id_db)
+        if radio_btn_which_pressed=="channels" :
+                    # print(radio_btn_which_pressed,arg_id_db)
                 
-                self.genrate_delete_msg(self.delete_in_angle(arg_id_db))
+                self.genrate_delete_msg1(self.delete_in_channel(arg_id_db))
+        elif radio_btn_which_pressed=="angles" :
+                    # print(radio_btn_which_pressed,arg_id_db)
+                    
+                self.genrate_delete_msg1(self.delete_in_angle(arg_id_db))
         else:
-                # print(radio_btn_which_pressed,arg_id_db)
-            
-            self.genrate_delete_msg(self.delete_in_beam(arg_id_db))
+                    # print(radio_btn_which_pressed,arg_id_db)
+                
+                self.genrate_delete_msg1(self.delete_in_beam(arg_id_db))
+        
