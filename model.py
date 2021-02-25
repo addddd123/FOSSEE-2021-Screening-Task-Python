@@ -131,7 +131,7 @@ class model1:
             dg2.setWindowTitle("Database message")
             dg2.resize(170, 170)
             label__warn=QLabel(erro_message)
-            dg2.setStyleSheet("font-size:35px;"
+            dg2.setStyleSheet("font-size:24px;"
                                     "color: red;"
                                     "background-color: white;"
                                     "font: SanSerif; "
@@ -195,9 +195,12 @@ class model1:
             
 
         except:
-            
-            self.genrate_delete_msg1("check u didnt enter numeric value!!!!!!")
-            return
+            if arg_id_db=='' :
+                
+                return
+            else:
+                self.genrate_delete_msg1("check u didnt enter numeric value!!!!!!")
+                return
         if radio_btn_which_pressed=="channels" :
                     # print(radio_btn_which_pressed,arg_id_db)
                 

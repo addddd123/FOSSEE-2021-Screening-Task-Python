@@ -805,6 +805,6 @@ class window(QWidget):
         
         
         
-app=QApplication(sys.argv)
-window=window()
-sys.exit(app.exec_())
+# app=QApplication(sys.argv)
+# window=window()
+# sys.exit(app.exec_())
