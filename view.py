@@ -121,10 +121,10 @@ class window(QWidget):
             self.channels_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"channels"))
             # elif self.angles_rad.text() =="Angles" and  self.angles_rad.isChecked() == True:
             #     print(" tru angle")
-            self.angles_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"beams"))
+            self.angles_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"angles"))
             # elif self.beams_rad.text()=="Beams" and  self.beams_rad.isChecked() == True:
             #     print(" beam tru")
-            self.beams_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"beamss"))
+            self.beams_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"beams"))
         dialog_box1.setLayout(v_box1)
         dialog_box1.setStyleSheet("font-size:14px;"
                                   "color: black;"
