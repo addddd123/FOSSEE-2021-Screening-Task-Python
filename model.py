@@ -119,3 +119,14 @@ class model1:
             self.genrate_msg(index[2],True,self.count_miss)#index[2] ? bkz i am returning above 3 args so tuple will be returned
         else:
             self.genrate_msg(index[2],False)
+            
+    def genrate_delete_msg(self):
+        pass
+    def delete_start(self,arg_id_db,radio_btn_which_pressed):
+        if radio_btn_which_pressed=="channels":
+            print(radio_btn_which_pressed,arg_id_db)
+        elif radio_btn_which_pressed=="angles":
+            print(radio_btn_which_pressed,arg_id_db)
+        else:
+            print(radio_btn_which_pressed,arg_id_db)
+        

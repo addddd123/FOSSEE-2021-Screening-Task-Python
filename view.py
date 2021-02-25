@@ -37,14 +37,23 @@ class window(QWidget):
         self.btn1.setIconSize(QSize(33, 30))
         self.btn1.setStyleSheet("background-color:blue; color:black")
         hbox.addWidget(self.btn1)
+        
         self.btn2=QPushButton("append")
         self.btn2.clicked.connect(lambda:self.on_pressed("append"))
         self.btn2.setIcon(QIcon("append.png")) 
         self.btn2.setIconSize(QSize(33, 30))
         # self.btn2.QSize(10, 10) 
         self.btn2.setStyleSheet("background-color:blue;color:black")
-        
         hbox.addWidget(self.btn2)
+        
+        self.btn3=QPushButton("Delete")
+        self.btn3.clicked.connect(lambda:self.on_pressed("delete"))
+        self.btn3.setIcon(QIcon("append.png")) 
+        self.btn3.setIconSize(QSize(33, 30))
+        # self.btn2.QSize(10, 10) 
+        self.btn3.setStyleSheet("background-color:blue;color:black")
+        hbox.addWidget(self.btn3)
+        
         self.groupbox.setLayout(hbox)
         
 ######################## main windows button functions and genration of############################
@@ -64,11 +73,15 @@ class window(QWidget):
         
         if obj_btn_get=="display":###this if else sets images on dialog acc to button pressed
             self.pixmap = QPixmap('display.png') 
-        else:
+        elif obj_btn_get=="append":
             self.pixmap = QPixmap('append.jpg') 
-
+        else:
+            print("deleteeee")
+            self.label_delete=QtWidgets.QLabel(" enter id of table to delete ")
+            self.line_delete=QtWidgets.QLineEdit(self)
         self.label_image.setPixmap(self.pixmap.scaled(100,100)) 
         self.label_image.setScaledContents(True)
+        
         self.channels_rad = QRadioButton("Channels")
         self.channels_rad.setStyleSheet("background-color:powderblue; color:black")
         self.beams_rad = QRadioButton("Beams")
@@ -76,25 +89,42 @@ class window(QWidget):
         self.angles_rad = QRadioButton("Angles")
         self.angles_rad.setStyleSheet("background-color:powderblue; color:black")
         self.label1 = QLabel("Select A Table to "+obj_btn_get)
+        v_box1.addWidget(self.label1, alignment=Qt.AlignHCenter)
         self.label1.setStyleSheet("color:green ; font-size:17px;")
-        
+        if obj_btn_get=="delete":
+            v_box1.addWidget(self.label_delete)
+            v_box1.addWidget(self.line_delete)
+            h_box1.addLayout(h_box1)
         h_box1.addWidget(self.channels_rad,alignment=Qt.AlignHCenter)
 
         h_box1.addWidget(self.beams_rad,alignment=Qt.AlignHCenter)
         h_box1.addWidget(self.angles_rad,alignment=Qt.AlignHCenter)
         h_box1.addStretch()
         
-        v_box1.addWidget(self.label1, alignment=Qt.AlignHCenter)
+        
         v_box1.addLayout(h_box1)
         
         self.label2=QLabel("<b>"+obj_btn_get+"</b> "+"chosen by you")
         self.label2.setStyleSheet("background-color:white; color:blue; font-size:17px;")
         
         v_box1.addWidget(self.label2)
-        self.channels_rad.toggled.connect(lambda: self.btn_state(self.channels_rad,obj_btn_get))
-        self.beams_rad.toggled.connect(lambda: self.btn_state(self.beams_rad,obj_btn_get))
-        self.angles_rad.toggled.connect(lambda: self.btn_state(self.angles_rad,obj_btn_get))
-        
+        if obj_btn_get!="delete":
+            self.channels_rad.toggled.connect(lambda: self.btn_state(self.channels_rad,obj_btn_get))
+            self.beams_rad.toggled.connect(lambda: self.btn_state(self.beams_rad,obj_btn_get))
+            self.angles_rad.toggled.connect(lambda: self.btn_state(self.angles_rad,obj_btn_get))
+        else:   
+            ob=model.model1()
+            print("jjjjjjjjjjjjjjjjj ",self.channels_rad.text(),self.angles_rad.text(),self.beams_rad.text())
+            
+            # if self.channels_rad.text()=="Channels" and  self.channels_rad.isChecked() == True:
+            #     print(" true channel")
+            self.channels_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"channels"))
+            # elif self.angles_rad.text() =="Angles" and  self.angles_rad.isChecked() == True:
+            #     print(" tru angle")
+            self.angles_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"beams"))
+            # elif self.beams_rad.text()=="Beams" and  self.beams_rad.isChecked() == True:
+            #     print(" beam tru")
+            self.beams_rad.toggled.connect(lambda:ob.delete_start(self.line_delete.text(),"beamss"))
         dialog_box1.setLayout(v_box1)
         dialog_box1.setStyleSheet("font-size:14px;"
                                   "color: black;"
@@ -730,11 +760,13 @@ class window(QWidget):
                 
                 
                 ########below else used to pop up window if something bad happens on choosing radio button###############
+        
         else:
             dg=QDialog()
             dg.setWindowTitle("warning message")
             dg.resize(170, 170)
             label__warn=QLabel("!!!!!Something bad happened")
+            s=QtWidgets.QLineEdit(self)
             dg.setStyleSheet("font-size:32px;"
                                     "color: red;"
                                     "background-color: white;"
@@ -748,6 +780,6 @@ class window(QWidget):
         
         
         
-# app=QApplication(sys.argv)
-# window=window()
-# sys.exit(app.exec_())
+app=QApplication(sys.argv)
+window=window()
+sys.exit(app.exec_())
