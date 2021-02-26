@@ -526,6 +526,22 @@ class window(QWidget):
                 self.formLayout_2.setWidget(13, QtWidgets.QFormLayout.SpanningRole, self.channel_push_submit)
                 
                 QMetaObject.connectSlotsByName(Dialog1)
+                def value_warn(mesg):
+                    dg=QDialog()
+                    dg.setWindowTitle("warning message")
+                    dg.resize(170, 170)
+                    label__warn=QLabel(mesg)
+                    s=QtWidgets.QLineEdit(self)
+                    dg.setStyleSheet("font-size:22px;"
+                                            "color: red;"
+                                            "background-color: white;"
+                                            "font: SanSerif; "
+                                            )
+                        
+                    dg.setLayout(QVBoxLayout())
+                    dg.layout().addWidget(label__warn)
+                    dg.exec_()
+        
                 def get_data_from_beams_or_Channel_form(get):
                     obj=model.model1()
                     if radio_state_know=="Channels":
@@ -538,8 +554,8 @@ class window(QWidget):
                                         int(get[i])                              
                                 #
                             except:
-                                print("errrorrr")
-                                return
+                                return value_warn("only designation and source can be string")
+                                
                              
                             obj.append_in_channel_database(get)
                     elif radio_state_know=="Beams":
@@ -550,8 +566,10 @@ class window(QWidget):
                                     
                                 
                             except:
-                                print("errrorrr")
-                                return                          
+                                
+                                return value_warn("only designation and source can be string")
+                                
+                                                        
                             obj.append_in_beams_database(get)        
                    
                 if radio_state_know=="Beams":
@@ -868,7 +886,21 @@ class window(QWidget):
                 self.angle_push_submit.setStyleSheet("background-color: rgb(0, 0, 255);")
                 self.angle_push_submit.setObjectName("angle_push_submit")
                 self.formLayout_2.setWidget(12, QtWidgets.QFormLayout.SpanningRole, self.angle_push_submit)
-                
+                def value_warn1(mesg):
+                    dg=QDialog()
+                    dg.setWindowTitle("warning message")
+                    dg.resize(170, 170)
+                    label__warn=QLabel(mesg)
+                    s=QtWidgets.QLineEdit(self)
+                    dg.setStyleSheet("font-size:22px;"
+                                            "color: red;"
+                                            "background-color: white;"
+                                            "font: SanSerif; "
+                                            )
+                        
+                    dg.setLayout(QVBoxLayout())
+                    dg.layout().addWidget(label__warn)
+                    dg.exec_()
                 def get_data_from_Angle_form(get):
                            
                             obj1=model.model1()
@@ -877,9 +909,10 @@ class window(QWidget):
                                     if i!=0 and i!=3 and i!=22:
                                         int(get[i])
                                     
-                                obj1.append_in_angle_database(get)
+                                
                             except:
-                                print("errrorrr")       
+                                return value_warn1("only designation , AxB and source can be string") 
+                            obj1.append_in_angle_database(get)      
                 #self.angle_push_submit.clicked.connect(lambda:abc(self.label.text()))
                 self.angle_push_submit.clicked.connect(lambda:get_data_from_Angle_form([self.angle_Designation.text(),
                                                                     self.angle_Mass.text(),
