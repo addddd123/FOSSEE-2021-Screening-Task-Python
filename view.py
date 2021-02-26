@@ -528,12 +528,31 @@ class window(QWidget):
                 QMetaObject.connectSlotsByName(Dialog1)
                 def get_data_from_beams_or_Channel_form(get):
                     obj=model.model1()
-                    if radio_state_know=="Channels" or radio_state_know=="Angles":
+                    if radio_state_know=="Channels":
                         
-                        obj.append_in_channel_database(get)
-                    else:
-                       
-                        obj.append_in_beams_database(get)        
+                            try:
+                                for i in range(len(get)):
+                                    
+                                    if i!=0 and i!=19:
+                                        print(i,get[i])
+                                        int(get[i])                              
+                                #
+                            except:
+                                print("errrorrr")
+                                return
+                             
+                            obj.append_in_channel_database(get)
+                    elif radio_state_know=="Beams":
+                            try:
+                                for i in range(len(get)):
+                                    if i!=0 and i!=18:
+                                        int(get[i])
+                                    
+                                
+                            except:
+                                print("errrorrr")
+                                return                          
+                            obj.append_in_beams_database(get)        
                    
                 if radio_state_know=="Beams":
                    
@@ -852,9 +871,15 @@ class window(QWidget):
                 
                 def get_data_from_Angle_form(get):
                            
-                           obj1=model.model1()
-                          
-                           obj1.append_in_angle_database(get)           
+                            obj1=model.model1()
+                            try:
+                                for i in range(len(get)):
+                                    if i!=0 and i!=3 and i!=22:
+                                        int(get[i])
+                                    
+                                obj1.append_in_angle_database(get)
+                            except:
+                                print("errrorrr")       
                 #self.angle_push_submit.clicked.connect(lambda:abc(self.label.text()))
                 self.angle_push_submit.clicked.connect(lambda:get_data_from_Angle_form([self.angle_Designation.text(),
                                                                     self.angle_Mass.text(),
