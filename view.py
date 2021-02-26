@@ -550,7 +550,7 @@ class window(QWidget):
                                 for i in range(len(get)):
                                     
                                     if i!=0 and i!=19:
-                                        print(i,get[i])
+                                       
                                         int(get[i])                              
                                 #
                             except:
