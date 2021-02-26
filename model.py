@@ -58,11 +58,11 @@ class model1:
           
             
         
-            index[1].execute('''INSERT INTO Channels (Designation,Mass,Area,D,B,tw,T,FlangeSlope,R1,R2,Iz,Iy,rz,ry,
-                                    Zz,zy,Zpz,Zpy,Source) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
+            index[1].execute('''INSERT INTO Channels (Designation,Mass,Area,D,B,tw,T,FlangeSlope,R1,R2,Cy,Iz,Iy,rz,ry,
+                                    Zz,zy,Zpz,Zpy,Source) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',
                   (get_data[0],get_data[1],get_data[2],get_data[3],get_data[4]
                            ,get_data[5],get_data[6],get_data[7],get_data[8],get_data[9],get_data[10],get_data[11],
-                           get_data[12],get_data[13],get_data[14],get_data[15],get_data[16],get_data[17],get_data[18]))
+                           get_data[12],get_data[13],get_data[14],get_data[15],get_data[16],get_data[17],get_data[18],get_data[19]))
             index[0].commit()
             index[1].close()
             index[0].close()             

@@ -82,17 +82,27 @@ class window(QWidget):
             self.line_delete=QtWidgets.QLineEdit()
         self.label_image.setPixmap(self.pixmap.scaled(100,100)) 
         self.label_image.setScaledContents(True)
-        
-        self.channels_rad = QRadioButton("Channels")
-        self.channels_rad.setStyleSheet("background-color:powderblue; color:black")
-        self.beams_rad = QRadioButton("Beams")
-        self.beams_rad.setStyleSheet("background-color:powderblue; color:black")
-        self.angles_rad = QRadioButton("Angles")
-        self.angles_rad.setStyleSheet("background-color:powderblue; color:black")
-        self.label1 = QLabel("Select A Table to "+obj_btn_get)
-        v_box1.addWidget(self.label1, alignment=Qt.AlignHCenter)
-        self.label1.setStyleSheet("color:green ; font-size:17px;")
-         
+        if obj_btn_get=="display" or obj_btn_get=="append":   
+            self.channels_rad = QRadioButton("Channels")
+            self.channels_rad.setStyleSheet("background-color:powderblue; color:black")
+            self.beams_rad = QRadioButton("Beams")
+            self.beams_rad.setStyleSheet("background-color:powderblue; color:black")
+            self.angles_rad = QRadioButton("Angles")
+            self.angles_rad.setStyleSheet("background-color:powderblue; color:black")
+            self.label1 = QLabel("Select A Table to "+obj_btn_get)
+            v_box1.addWidget(self.label1, alignment=Qt.AlignHCenter)
+            self.label1.setStyleSheet("color:green ; font-size:17px;")
+        else:
+            
+            self.channels_rad = QPushButton("Channels")
+            self.channels_rad.setStyleSheet("background-color:powderblue; color:black")
+            self.beams_rad = QPushButton("Beams")
+            self.beams_rad.setStyleSheet("background-color:powderblue; color:black")
+            self.angles_rad = QPushButton("Angles")
+            self.angles_rad.setStyleSheet("background-color:powderblue; color:black")
+            self.label1 = QLabel("Select A Table to "+obj_btn_get)
+            v_box1.addWidget(self.label1, alignment=Qt.AlignHCenter)
+            self.label1.setStyleSheet("color:green ; font-size:17px;")
         if obj_btn_get=="delete":
             h_box11=QHBoxLayout()
             
@@ -121,10 +131,10 @@ class window(QWidget):
         
         if obj_btn_get!="delete":
             
-            self.channels_rad.toggled.connect(lambda: self.btn_state(self.channels_rad,obj_btn_get))
+            self.channels_rad.clicked.connect(lambda: self.btn_state(self.channels_rad,obj_btn_get))
             
-            self.beams_rad.toggled.connect(lambda: self.btn_state(self.beams_rad,obj_btn_get))
-            self.angles_rad.toggled.connect(lambda: self.btn_state(self.angles_rad,obj_btn_get))
+            self.beams_rad.clicked.connect(lambda: self.btn_state(self.beams_rad,obj_btn_get))
+            self.angles_rad.clicked.connect(lambda: self.btn_state(self.angles_rad,obj_btn_get))
         elif obj_btn_get=="delete":   
             ob=model.model1()
             self.push_reset.clicked.connect(lambda:self.reset_radio(self.channels_rad,self.angles_rad,self.beams_rad,self.line_delete ))
@@ -325,6 +335,7 @@ class window(QWidget):
                     ##########not intrested in display then obviously intrested in appending data ##########
                     ##########appending into databse and its code willl go here#######
             def make_dialog_for_channel_or_beams(self,radio_state_know):
+                # print(radio_state_know)
                 Dialog1=QDialog()
                 Dialog1.setObjectName("Dialog")
                 Dialog1.resize(373, 384)
@@ -401,6 +412,9 @@ class window(QWidget):
                 self.label_17 = QtWidgets.QLabel(self.formLayoutWidget)
                 self.label_17.setObjectName("label_17")
                 self.formLayout.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.label_17)
+                
+                
+                
                 self.channel_R1 = QtWidgets.QLineEdit(self.formLayoutWidget)
                 self.channel_R1.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_R1.setObjectName("channel_R1")
@@ -409,6 +423,8 @@ class window(QWidget):
                 self.channel_R2.setStyleSheet("background-color: rgb(255, 255, 255);\n"
                 "")
                 self.channel_R2.setObjectName("channel_R2")
+                
+                
                 self.formLayout.setWidget(11, QtWidgets.QFormLayout.FieldRole, self.channel_R2)
                 self.label_27 = QtWidgets.QLabel(self.formLayoutWidget)
                 self.label_27.setObjectName("label_27")
@@ -418,101 +434,133 @@ class window(QWidget):
                 self.label_37.setStyleSheet("color: rgb(0, 170, 0);\n"
                 "font: 75 12pt \"MS Shell Dlg 2\";")
                 self.label_37.setObjectName("label_37")
+                
                 self.formLayoutWidget_2 = QtWidgets.QWidget(Dialog1)
                 self.formLayoutWidget_2.setGeometry(QRect(210, 40, 151, 331))
                 self.formLayoutWidget_2.setObjectName("formLayoutWidget_2")
                 self.formLayout_2 = QtWidgets.QFormLayout(self.formLayoutWidget_2)
                 self.formLayout_2.setContentsMargins(0, 0, 0, 0)
                 self.formLayout_2.setObjectName("formLayout_2")
+                ##
+                if radio_state_know=="Channels":
+                    self.label_Cy = QtWidgets.QLabel("Cy")
+                    self.label_Cy.setObjectName("label_Cy")
+                    self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_Cy)
+                    self.channel_Cy = QtWidgets.QLineEdit(self.formLayoutWidget_2)
+                    self.channel_Cy.setStyleSheet("background-color: rgb(255, 255, 255);")
+                    self.channel_Cy.setObjectName("channel_Cy")
+                    self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.channel_Cy)
+                ##
                 self.label_28 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_28.setObjectName("label_28")
-                self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_28)
+                self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_28)
                 self.channel_Iz = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_Iz.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_Iz.setObjectName("channel_Iz")
-                self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.channel_Iz)
+                self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.channel_Iz)
+                
                 self.label_29 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_29.setObjectName("label_29")
-                self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_29)
+                self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_29)
                 self.channel_Iy = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_Iy.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_Iy.setObjectName("channel_Iy")
-                self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.channel_Iy)
+                self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.channel_Iy)
                 self.label_30 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_30.setObjectName("label_30")
-                self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_30)
+                self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_30)
                 self.channel_rz = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_rz.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_rz.setObjectName("channel_rz")
-                self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.channel_rz)
+                self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.channel_rz)
                 self.label_31 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_31.setObjectName("label_31")
-                self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_31)
+                self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_31)
                 self.channel_ry = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_ry.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_ry.setObjectName("channel_ry")
-                self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.channel_ry)
+                self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.channel_ry)
                 self.label_32 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_32.setObjectName("label_32")
-                self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_32)
+                self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.label_32)
                 self.channel_zz = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_zz.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_zz.setObjectName("channel_zz")
-                self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.channel_zz)
+                self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.channel_zz)
                 self.label_33 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_33.setObjectName("label_33")
-                self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.LabelRole, self.label_33)
+                self.formLayout_2.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.label_33)
                 self.channel_Zy = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_Zy.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_Zy.setObjectName("channel_Zy")
-                self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.channel_Zy)
+                self.formLayout_2.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.channel_Zy)
                 self.label_34 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_34.setObjectName("label_34")
-                self.formLayout_2.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.label_34)
+                self.formLayout_2.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.label_34)
                 self.channel_Zpz = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_Zpz.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_Zpz.setObjectName("channel_Zpz")
-                self.formLayout_2.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.channel_Zpz)
+                self.formLayout_2.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.channel_Zpz)
                 self.label_35 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_35.setObjectName("label_35")
-                self.formLayout_2.setWidget(8, QtWidgets.QFormLayout.LabelRole, self.label_35)
+                self.formLayout_2.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.label_35)
                 self.channel_Zpy = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_Zpy.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_Zpy.setObjectName("channel_Zpy")
-                self.formLayout_2.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.channel_Zpy)
+                self.formLayout_2.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.channel_Zpy)
                 self.label_36 = QtWidgets.QLabel(self.formLayoutWidget_2)
                 self.label_36.setObjectName("label_36")
-                self.formLayout_2.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.label_36)
+                self.formLayout_2.setWidget(10, QtWidgets.QFormLayout.LabelRole, self.label_36)
                 self.channel_Source = QtWidgets.QLineEdit(self.formLayoutWidget_2)
                 self.channel_Source.setStyleSheet("background-color: rgb(255, 255, 255);")
                 self.channel_Source.setObjectName("channel_Source")
-                self.formLayout_2.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.channel_Source)
+                self.formLayout_2.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.channel_Source)
+                
+                
+                
                 spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-                self.formLayout_2.setItem(10, QtWidgets.QFormLayout.FieldRole, spacerItem)
+                self.formLayout_2.setItem(12, QtWidgets.QFormLayout.FieldRole, spacerItem)
                 self.channel_push_submit = QtWidgets.QPushButton(self.formLayoutWidget_2)
                 self.channel_push_submit.setStyleSheet("background-color: rgb(0, 0, 255);")
                 self.channel_push_submit.setObjectName("channel_push_submit")
-                self.formLayout_2.setWidget(11, QtWidgets.QFormLayout.SpanningRole, self.channel_push_submit)
+                self.formLayout_2.setWidget(13, QtWidgets.QFormLayout.SpanningRole, self.channel_push_submit)
                 
                 QMetaObject.connectSlotsByName(Dialog1)
                 def get_data_from_beams_or_Channel_form(get):
                     obj=model.model1()
-                    if radio_state_know=="Channels":
+                    if radio_state_know=="Channels" or radio_state_know=="Angles":
                         
                         obj.append_in_channel_database(get)
                     else:
                        
                         obj.append_in_beams_database(get)        
-                
-                self.channel_push_submit.clicked.connect(lambda:get_data_from_beams_or_Channel_form([self.channel_Designation.text(),
+                   
+                if radio_state_know=="Beams":
+                   
+                    self.channel_push_submit.clicked.connect(lambda:get_data_from_beams_or_Channel_form([self.channel_Designation.text(),
+                                                                        self.channel_Mass.text(),self.Area.text()
+                                                                    ,self.channel_D.text(),self.channel_B.text()
+                                                                    ,self.channel_tw.text()
+                                                                    ,self.lineEdit_15.text(),self.lineEdit_16.text()
+                                                                    ,self.channel_R1.text(),self.channel_R2.text(),self.channel_Iz.text()
+                                                                    ,self.channel_Iy.text(),self.channel_rz.text(),self.channel_ry.text()
+                                                                    ,self.channel_zz.text(),self.channel_Zy.text(),self.channel_Zpz.text()
+                                                                    ,self.channel_Zpy.text(),self.channel_Source.text() ] ))
+                elif radio_state_know=="Channels":
+                 
+                    self.channel_push_submit.clicked.connect(lambda:get_data_from_beams_or_Channel_form([self.channel_Designation.text(),
                                                                     self.channel_Mass.text(),self.Area.text()
-                                                                   ,self.channel_D.text(),self.channel_B.text()
-                                                                   ,self.channel_tw.text()
-                                                                   ,self.lineEdit_15.text(),self.lineEdit_16.text()
-                                                                   ,self.channel_R1.text(),self.channel_R2.text(),self.channel_Iz.text()
-                                                                   ,self.channel_Iy.text(),self.channel_rz.text(),self.channel_ry.text()
-                                                                   ,self.channel_zz.text(),self.channel_Zy.text(),self.channel_Zpz.text()
-                                                                   ,self.channel_Zpy.text(),self.channel_Source.text() ] ))
+                                                                    ,self.channel_D.text(),self.channel_B.text()
+                                                                    ,self.channel_tw.text()
+                                                                    ,self.lineEdit_15.text(),self.lineEdit_16.text()
+                                                                    ,self.channel_R1.text(),self.channel_R2.text(),self.channel_Cy.text(),
+                                                                    self.channel_Iz.text()
+                                                                    ,self.channel_Iy.text(),self.channel_rz.text(),self.channel_ry.text()
+                                                                    ,self.channel_zz.text(),self.channel_Zy.text(),self.channel_Zpz.text()
+                                                                    ,self.channel_Zpy.text(),self.channel_Source.text() ] ))                    
+                    
+                    
+                    
                 QMetaObject.connectSlotsByName(Dialog1)
                 def retranslateUi1(self, Dialog1):
                     _translate = QCoreApplication.translate
