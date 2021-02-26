@@ -188,29 +188,32 @@ class model1:
         else:
            return "id doesnt exist"
     def delete_start(self,arg_id_db,radio_btn_which_pressed):
-        
-        try:
-           
-            arg_id_db=int(arg_id_db)
+        if not os.path.exists('steel_sections.sqlite')==False:
             
+            try:
+            
+                arg_id_db=int(arg_id_db)
+                
 
-        except:
-            if arg_id_db=='' :
-                
-                return
-            else:
-                self.genrate_delete_msg1("check u didnt enter numeric value!!!!!!")
-                return
-        if radio_btn_which_pressed=="channels" :
-                    # print(radio_btn_which_pressed,arg_id_db)
-                
-                self.genrate_delete_msg1(self.delete_in_channel(arg_id_db))
-        elif radio_btn_which_pressed=="angles" :
-                    # print(radio_btn_which_pressed,arg_id_db)
+            except:
+                if arg_id_db=='' :
                     
-                self.genrate_delete_msg1(self.delete_in_angle(arg_id_db))
+                    return
+                else:
+                    self.genrate_delete_msg1("check u didnt enter numeric value!!!!!!")
+                    return
+            if radio_btn_which_pressed=="channels" :
+                        # print(radio_btn_which_pressed,arg_id_db)
+                    
+                    self.genrate_delete_msg1(self.delete_in_channel(arg_id_db))
+            elif radio_btn_which_pressed=="angles" :
+                        # print(radio_btn_which_pressed,arg_id_db)
+                        
+                    self.genrate_delete_msg1(self.delete_in_angle(arg_id_db))
+            else:
+                        # print(radio_btn_which_pressed,arg_id_db)
+                    
+                    self.genrate_delete_msg1(self.delete_in_beam(arg_id_db))
         else:
-                    # print(radio_btn_which_pressed,arg_id_db)
-                
-                self.genrate_delete_msg1(self.delete_in_beam(arg_id_db))
-        
+            self.genrate_delete_msg1("database not found")
+            
