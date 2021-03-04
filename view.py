@@ -624,13 +624,13 @@ class window(QWidget):
                 def get_data_from_beams_or_Channel_form(get):
                     obj=model.model1()
                     if radio_state_know=="Channels":
-                        
+
                             try:
                                 for i in range(1,len(get)-1):
                                     
                                     if i!=0 and i!=19:
-                                       
-                                        int(get[i])
+                                        
+                                        float(get[i])
                                 if get[0]=='' and get[19]=='':
                                         
                                     return  value_warn("enter proper values in Designation and Source")        
@@ -650,7 +650,7 @@ class window(QWidget):
                             try:
                                 for i in range(1,len(get)-1):
                                     if i!=0 and i!=18:
-                                        int(get[i])
+                                        float(get[i])
                                 if get[0]=='' and get[18]=='':
                                         
                                     return  value_warn("enter proper values in Designation and Source")        
@@ -1003,7 +1003,7 @@ class window(QWidget):
                                 for i in range(1,len(get)-1):
                                     if i!=0 and i!=3 and i!=22 and i!=6:
                                     
-                                        int(get[i])
+                                        float(get[i])
                                 
                                 if get[0]=='' and get[22]=='':
                                       
