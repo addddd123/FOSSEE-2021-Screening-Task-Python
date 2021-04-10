@@ -1,11 +1,13 @@
 @echo off
 set current_path=%~dp0
 call pip install %current_path%python_dateutil-2.8.1-py2.py3-none-any.whl
-call pip install %current_path%chardet-4.0.0-py2.py3-none-any.whl
-call pip install %current_path%idna-2.10-py2.py3-none-any.whl
-call pip install %current_path%urllib3-1.26.4-py2.py3-none-any.whl
+call pip install %current_path%chardet-3.0.2-py2.py3-none-any.whl
+call pip install %current_path%idna-2.5-py2.py3-none-any.whl
+call pip install %current_path%importlib_metadata-3.10.0-py3-none-any.whl
+call pip install %current_path%typing_extensions-3.7.4.3-py3-none-any.whl
+call pip install %current_path%urllib3-1.21.1-py2.py3-none-any.whl
 call pip install %current_path%certifi-2020.12.5-py2.py3-none-any.whl
-call pip install %current_path%requests-2.25.1-py2.py3-none-any.whl
+call pip install %current_path%requests-2.14.0-py2.py3-none-any.whl
 call pip install %current_path%attrs-18.2.0-py2.py3-none-any.whl
 call pip install %current_path%cachy-0.3.0-py2.py3-none-any.whl
 call pip install %current_path%zipp-3.4.1-py3-none-any.whl
